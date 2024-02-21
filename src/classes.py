@@ -13,7 +13,7 @@ class Category:
         self.goods = goods
 
         Category.total_numbers_of_category += 1
-        Category.unique_goods += 1
+        Category.unique_goods += len(goods)
 
 
 class Product:
