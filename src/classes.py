@@ -5,7 +5,6 @@ class Category:
     goods: str
 
     total_numbers_of_category = 0
-    unique_goods = len(goods)
 
     def __init__(self, name, description, goods):
         self.name = name
@@ -13,6 +12,7 @@ class Category:
         self.goods = goods
 
         Category.total_numbers_of_category += 1
+        unique_goods = len(goods)
 
 
 class Product:
