@@ -30,17 +30,19 @@ class Category:
             list_goods.append(f'{item["name"]}, {item["price"]} руб. Остаток: {item["quantity_in_stock"]} шт.\n')
         return "".join(list_goods)
 
+    def __str__(self):
+        return f'Категория: {self.name}, количество продуктов: {len(self.__goods)}'
+
+    def __len__(self):
+        return len(self.__goods)
+
 
 class Product:
     """Класс продукта"""
 
-    @property
-    def price(self):
-        return self.price
-
     name: str
     description: str
-    price: float
+    amount: float
     quantity_in_stock: int
 
     def __init__(self, name, description, amount, quantity_in_stock):
@@ -53,7 +55,7 @@ class Product:
     def get_price(self):
         return self.amount
 
-    @price.setter
+    @get_price.setter
     def price(self, new_price):
         if new_price <= 0 or new_price == self.get_price:
             print(f'Некорректное значение цены')
@@ -75,3 +77,10 @@ class Product:
         name, description, price, quantity_in_stock = (product["name"], product["description"],
                                                        product["price"], product["quantity_in_stock"])
         return cls(name, description, price, quantity_in_stock)
+
+    def __str__(self):
+        return f'{self.name}: {self.amount} руб. Остаток: {self.quantity_in_stock} шт.'
+
+    def __add__(self, other):
+        if isinstance(other, Product):
+            return self.amount * self.quantity_in_stock + other.amount * other.quantity_in_stock
