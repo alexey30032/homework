@@ -17,10 +17,11 @@ class Category:
 
     def goods_list(self, product):
         """Получает обьект Product на вход и добавляет его в список"""
-        self.__goods.append({"name": product[0],
-                             "description": product[1],
-                             "price": product[2],
-                             "quantity_in_stock": product[3]})
+        if isinstance(product, Product) or issubclass(product, Product):
+            self.__goods.append(product.get_name, product.get_description,
+                                product.get_price, product.get_quantity_in_stock)
+        else:
+            raise TypeError
 
     @property
     def get_goods(self):
@@ -50,6 +51,18 @@ class Product:
         self.description = description
         self.amount = amount
         self.quantity_in_stock = quantity_in_stock
+
+    @property
+    def get_name(self):
+        return self.name
+
+    @property
+    def get_description(self):
+        return self.description
+
+    @property
+    def get_quantity_in_stock(self):
+        return self.quantity_in_stock
 
     @property
     def get_price(self):
@@ -84,3 +97,5 @@ class Product:
     def __add__(self, other):
         if isinstance(other, Product):
             return self.amount * self.quantity_in_stock + other.amount * other.quantity_in_stock
+        else:
+            raise TypeError
