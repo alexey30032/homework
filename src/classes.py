@@ -1,3 +1,16 @@
+from abc import ABC, abstractmethod
+from mixin import MixinLog
+
+
+class BaseProduct(ABC):
+    @abstractmethod
+    def __init__(self, name, description, amount, quantity_in_stock):
+        self.name = name
+        self.description = description
+        self.amount = amount
+        self.quantity_in_stock = quantity_in_stock
+
+
 class Category:
     """Класс категории"""
     name: str
@@ -38,7 +51,7 @@ class Category:
         return len(self.__goods)
 
 
-class Product:
+class Product(MixinLog, BaseProduct):
     """Класс продукта"""
 
     name: str
@@ -47,10 +60,8 @@ class Product:
     quantity_in_stock: int
 
     def __init__(self, name, description, amount, quantity_in_stock):
-        self.name = name
-        self.description = description
-        self.amount = amount
-        self.quantity_in_stock = quantity_in_stock
+        super().__init__(name, description, amount, quantity_in_stock)
+        print(repr(self))
 
     @property
     def get_name(self):
@@ -95,7 +106,7 @@ class Product:
         return f'{self.name}: {self.amount} руб. Остаток: {self.quantity_in_stock} шт.'
 
     def __add__(self, other):
-        if isinstance(other, Product) and type(self) == type(other):
+        if type(self) == type(other):
             return self.amount * self.quantity_in_stock + other.amount * other.quantity_in_stock
         else:
             raise TypeError

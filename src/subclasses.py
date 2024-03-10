@@ -1,4 +1,5 @@
 from classes import Product
+from mixin import MixinLog
 
 
 class Phone(Product):
