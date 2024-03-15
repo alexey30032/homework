@@ -4,11 +4,8 @@ from mixin import MixinLog
 
 class BaseProduct(ABC):
     @abstractmethod
-    def __init__(self, name, description, amount, quantity_in_stock):
-        self.name = name
-        self.description = description
-        self.amount = amount
-        self.quantity_in_stock = quantity_in_stock
+    def create_product(self, **kwargs):
+        pass
 
 
 class Category:
@@ -61,7 +58,6 @@ class Product(MixinLog, BaseProduct):
 
     def __init__(self, name, description, amount, quantity_in_stock):
         super().__init__(name, description, amount, quantity_in_stock)
-        print(repr(self))
 
     @property
     def get_name(self):
@@ -97,10 +93,8 @@ class Product(MixinLog, BaseProduct):
             self.amount = new_price
 
     @classmethod
-    def create_product(cls, product):
-        name, description, price, quantity_in_stock = (product["name"], product["description"],
-                                                       product["price"], product["quantity_in_stock"])
-        return cls(name, description, price, quantity_in_stock)
+    def create_product(cls, **product):
+        return cls(**product)
 
     def __str__(self):
         return f'{self.name}: {self.amount} руб. Остаток: {self.quantity_in_stock} шт.'
