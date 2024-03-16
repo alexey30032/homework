@@ -3,6 +3,15 @@ from mixin import MixinLog
 
 
 class BaseProduct(ABC):
+
+    @abstractmethod
+    def __init__(self, name, description, amount, quantity_in_stock):
+        self.name = name
+        self.description = description
+        self.amount = amount
+        self.quantity_in_stock = quantity_in_stock
+
+
     @abstractmethod
     def create_product(self, **kwargs):
         pass
