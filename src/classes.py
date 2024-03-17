@@ -50,6 +50,15 @@ class Category:
             list_goods.append(f'{item["name"]}, {item["price"]} руб. Остаток: {item["quantity_in_stock"]} шт.\n')
         return "".join(list_goods)
 
+    def average_price(self):
+        """подсчет среднего ценника всех товаров"""
+        try:
+            total_price = sum(Product.amount for amount in self.__goods)
+            average_price = total_price / len(self.__goods)
+        except ZeroDivisionError:
+            return
+        return average_price
+
     def __str__(self):
         return f'Категория: {self.name}, количество продуктов: {len(self.__goods)}'
 
@@ -57,7 +66,7 @@ class Category:
         return len(self.__goods)
 
 
-class Product(MixinLog, BaseProduct):
+class Product(BaseProduct, MixinLog):
     """Класс продукта"""
 
     name: str
@@ -67,6 +76,10 @@ class Product(MixinLog, BaseProduct):
 
     def __init__(self, name, description, amount, quantity_in_stock):
         super().__init__(name, description, amount, quantity_in_stock)
+        if self.quantity_in_stock == 0:
+            print("Товар с нулевым количеством не может быть добавлен")
+            raise ValueError
+        print('Товар добавлен')
 
     @property
     def get_name(self):
